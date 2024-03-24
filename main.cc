@@ -12,17 +12,36 @@ float max = 2.0;
 float mid = 1.5;
 float min = 1.0;
 
-  driver.SetMS(channel, mid);
+float angle_max = 1.57079633;
+float angle_mid = angle_max /2;
+float angle_min = 0;
+
+//  driver.SetMS(channel, mid);
+//  sleep(1);
+//  driver.SetMS(channel, max);
+//  sleep(1);
+//  driver.SetMS(channel, mid);
+//  sleep(1);
+//  driver.SetMS(channel, min);
+//  sleep(1);
+//  driver.SetMS(channel, mid);
+//  sleep(1);
+//  driver.SetMS(channel, max);
+//  sleep(1);
+//  driver.SetMS(channel, mid);
+
+  driver.SetAngle(channel, angle_mid);
   sleep(1);
-  driver.SetMS(channel, max);
+  driver.SetAngle(channel, angle_max);
   sleep(1);
-  driver.SetMS(channel, mid);
+  driver.SetAngle(channel, angle_mid);
   sleep(1);
-  driver.SetMS(channel, min);
+  driver.SetAngle(channel, angle_min);
   sleep(1);
-  driver.SetMS(channel, mid);
+  driver.SetAngle(channel, angle_mid);
   sleep(1);
-  driver.SetMS(channel, max);
+  driver.SetAngle(channel, angle_max);
   sleep(1);
-  driver.SetMS(channel, mid);
+  driver.SetAngle(channel, angle_mid);
+
 }

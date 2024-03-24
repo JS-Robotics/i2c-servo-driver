@@ -19,7 +19,6 @@
 class PCA9658Driver {
  public:
   PCA9658Driver(std::string device, int address) : device_(device), address_(address), i2c_(-1) {
-
     if (!Connect()) {
       std::cerr << "Unable to Connect to device: " << device_ << std::endl;
     } else {
@@ -27,12 +26,10 @@ class PCA9658Driver {
         std::cerr << "Unable to set up PCA9685 device" << std::endl;
       }
     }
-
   }
 
   ~PCA9658Driver() {
     close(i2c_);
-
   }
 
   void SetPWM(int channel, int on, int off) const {
@@ -49,11 +46,26 @@ class PCA9658Driver {
   }
 
   void SetMS(int channel, float ms) const {
-    auto period_ms = 1000.0/frequency_;  //Ticks per milliseconds
+    auto period_ms = 1000.0 / frequency_;  //Ticks per milliseconds
     auto ticks_per_ms = 4096 / period_ms;
     auto ticks = ms * ticks_per_ms;
     std::cout << "Setting motor on for :" << ticks << std::endl;
     SetPWM(channel, 0, static_cast<int>(ticks));
+  }
+
+  void SetAngle(int channel, float angle) const {
+    // First, ensure the angle is within the valid range
+    if (angle < 0) angle = 0;
+    if (angle > M_PI / 2) angle = M_PI / 2; // M_PI is from <cmath>, make sure it's included
+
+    // Convert the angle from radians to degrees
+    float angleDegrees = angle * (180.0 / M_PI);
+
+    // Map the angle in degrees to a pulse width in ms (linear mapping from 0-90 deg to 1-2 ms)
+    float pulseWidthMs = 1.0 + (angleDegrees / 90.0);
+
+    // Set the PWM based on the calculated pulse width
+    SetMS(channel, pulseWidthMs);
   }
 
  private:
